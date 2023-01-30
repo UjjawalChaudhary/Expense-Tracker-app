@@ -16,7 +16,7 @@ const addexpense = (req, res) => {
 
 const getexpenses = (req, res)=> {
     
-    Expense.findAll({ where : { userId: req.user.id}}).then(expenses => {
+    Expense.findAll({ where : { userrrId: req.user.id}}).then(expenses => {
         return res.status(200).json({expenses, success: true})
     })
     .catch(err => {

@@ -3,7 +3,7 @@ const sequelize = require('../util/database');
 
 //id, name , password, phone number, role
 
-const User = sequelize.define('AppUsers', {
+const User = sequelize.define('userrr', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -17,6 +17,7 @@ const User = sequelize.define('AppUsers', {
        unique: true
     },
     password: Sequelize.STRING,
+    ispremiumuser: Sequelize.BOOLEAN
 })
 
 module.exports = User;
