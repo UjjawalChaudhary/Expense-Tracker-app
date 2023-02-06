@@ -1,7 +1,10 @@
 
 const User = require('../models/users');
+const Expense = require('../models/expenses');
+
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const s3upload = require('../service/uploadtos3')
 
 function isstringinvalid(string){
     if(string == undefined ||string.length === 0){
@@ -59,6 +62,29 @@ const login = async (req, res) => {
         }
     }catch(err){
         res.status(500).json({message: err, success: false})
+    }
+}
+
+exports.download=async (req,res,next)=>{
+    if(req.user.ispremiumuser){
+    try{
+   let expense=await req.user.getExpenses();
+   console.log(expense);
+   const stringifyexpense=JSON.stringify(expense);
+   const userId=req.user.id;
+   const filename=`Expense${userId}/${new Date()}.txt`;
+   const fileurl=await s3upload.uploadToS3(stringifyexpense,filename);
+   DownloadData.create({fileurl:fileurl,userId:req.user.id}).then(()=>{
+    res.json({fileurl,status:"1"});
+   }).catch((err)=>{
+    throw new Error(err);
+   })
+  
+    }catch(err){
+        res.json({fileurl:"",status:"0"});
+    }}
+    else{
+        res.status(401).json({message:"Unauthorized",status:"0"});
     }
 }
 

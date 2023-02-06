@@ -9,7 +9,7 @@ const addexpense = (req, res) => {
         return res.status(400).json({success: false, message: 'Parameters missing'})
     }
     
-    Expense.create({ expenseamount, description, category, userId: req.user.id}).then(expense => {
+    Expense.create({ expenseamount, description, category, userrrId: req.user.id}).then(expense => {
         return res.status(201).json({expense, success: true } );
     }).catch(err => {
         return res.status(500).json({success : false, error: err})
@@ -17,15 +17,39 @@ const addexpense = (req, res) => {
 }
 
 const getexpenses = (req, res)=> {
+
+    const limit=(req.query.limit) ? parseInt(req.query.limit) : 2;
+    const page=(req.query.page) ? parseInt(req.query.page) : 1;
+    // console.log(limit);
+    // console.log(page);
+    Expense.findAndCountAll()
+    .then((data) => {
+        // let page = req.params.page;      // page number
+        var pages = Math.ceil(data.count / limit);
+         
+   
+    Expense.findAll({
+            offset:(page-1)*limit,
+            limit:limit
+                 },{where:{userId:req.user.id}})   
+                .then((expense)=>{
     
-    Expense.findAll({ where : { userrrId: req.user.id}}).then(expenses => {
-        return res.status(200).json({expenses, success: true})
-    })
-    .catch(err => {
-        console.log(err)
-        return res.status(500).json({ error: err, success: false})
-    })
+                      res.json({expense,pages:pages});
+                 }).catch(err=>console.log(err));
+     })
+    .catch(err=>console.log(err));
 }
+
+    
+//     Expense.findAll({ where : { userrrId: req.user.id}}).then(expenses => {
+//         return res.status(200).json({expenses, success: true})
+//     })
+//     .catch(err => {
+//         console.log(err)
+//         return res.status(500).json({ error: err, success: false})
+//     })
+// }
+
 
 const deleteexpense = (req, res) => {
     const expenseid = req.params.expenseid;

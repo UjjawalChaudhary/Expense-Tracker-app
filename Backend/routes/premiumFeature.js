@@ -6,7 +6,7 @@ const authenticatemiddleware = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/showLeaderBoard', authenticatemiddleware.authenticate,premiumFeatureController.getUserLeaderBoard);
+router.get('/showLeaderBoard', authenticatemiddleware.authenticate,premiumFeatureController.leadership);
 
 
 module.exports = router;
