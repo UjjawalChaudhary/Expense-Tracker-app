@@ -1,4 +1,6 @@
 const path = require('path');
+const fs = require('fs');
+
 
 const express = require('express');
 var cors = require('cors')
@@ -7,6 +9,9 @@ const User = require('./models/users');
 const Expense = require('./models/expenses');
 const Order = require('./models/orders');
 const Forgotpassword = require('./models/forgotpassword');
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 
 
 const userRoutes = require('./routes/user')
@@ -15,8 +20,18 @@ const purchaseRoutes = require('./routes/purchase')
 const premiumFeatureRoutes = require('./routes/premiumFeature')
 const resetPasswordRoutes = require('./routes/resetpassword')
 
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, 'access.log'), 
+    {flags: 'a'}
+    );
 
-const app = express();
+ const app = express();
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined', {stream: accessLogStream}));
+
+
 const dotenv = require('dotenv');
  
 // get config vars
@@ -25,8 +40,7 @@ dotenv.config();
 
 app.use(cors());
 
-// app.use(bodyParser.urlencoded());  ////this is for handling forms
-app.use(express.json());  //this is for handling jsons
+app.use(express.json());  //for handling jsons
 
 app.use('/user', userRoutes)
 app.use('/expense', expenseRoutes)
