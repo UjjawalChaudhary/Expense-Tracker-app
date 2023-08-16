@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+
 </head>
 <body>
-    <br onsubmit="addNewExpense(event)">
-        <label for="expenseamount">Choose expenseamount:</label></br>
-        <input type="number" name="expenseamount" required> </input> </br>
+    <h1>ADD EXPENSES</h1>
+
+    <form >
+        <label for="expenseamount">Choose expenseamount:</label>
+        <input id = "expenseamount" type="number" name="expenseamount" required> </input> </br>
         <label for="description">Choose description:</label></br>
-        <input type="text" name="description" required> </input></br>
+        <input id = "description" type="text" name="description" required> </input></br>
         <label for="category">Choose a category:</label></br>
         <select id="category" name="category">
             <option value="fuel">fuel</option>
@@ -19,14 +23,14 @@
             <option value="electricity">electricity</option>
             <option value="Movie">Movie</option></br>
         </select>
-        <button>Add Expense</button><br></br>
+        <button onclick="addNewExpense(event)">Add Expense</button><br></br>
     </form>
     <div id="message"></div>
     <button id="rzp-button1">Buy Premium</button></br>
     <button onclick="download()" id="downloadexpense">Download File</button>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <h1>
-        Expenses
+        EXPENSES
     </h1>
     <ul id='listOfExpenses'>
 
@@ -38,11 +42,13 @@
     <select id="select" class="form-select" aria-label="Default select example">
       <option selected>Select no. of data</option>
       <option value="2">2</option>
+      <option value="5">5</option>
       <option value="10">10</option>
-      <option value="30">30</option>
     </select>
   </div>
     <ul id="leaderboard"></ul>
+    <ul id="Recentdownload"></ul>
+
     <script src='./index.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>

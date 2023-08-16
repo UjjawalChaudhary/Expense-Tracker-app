@@ -2,9 +2,9 @@ function addNewExpense(e){
     e.preventDefault();
 
     const expenseDetails = {
-        expenseamount: e.target.expenseamount.value,
-        description: e.target.description.value,
-        category: e.target.category.value,
+        expenseamount: document.getElementById('expenseamount').value,
+        description: document.getElementById('description').value,
+        category: document.getElementById('category').value,
 
     }
     console.log(expenseDetails)
@@ -150,21 +150,23 @@ function removeExpensefromUI(expenseid){
 }
 
 function download(){
+    const token=localStorage.getItem('token');
     axios.get('http://localhost:3000/user/download', { headers: {"Authorization" : token} })
+
     .then((response) => {
-        if(response.status === 201){
-            //the bcakend is essentially sending a download link
-            //  which if we open in browser, the file would download
+        if(response.data.status == 1){
+            console.log(response.data)
             var a = document.createElement("a");
-            a.href = response.data.fileUrl;
-            a.download = 'myexpense.csv';
-            a.click();
+            a.href = response.data.fileurl;
+            a.download = 'myexpense.txt';
+
+           a.click();
         } else {
             throw new Error(response.data.message)
         }
 
     })
-    .catch((err) => {
+    .catch((err) => { 
         showError(err)
     });
 }
@@ -191,7 +193,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
       },
      // This handler function will handle the success payment
      "handler": async function (response) {
-        const res = await axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
+        const res = await axios.post('http://192.168.203.129:3000/purchase/updatetransactionstatus',{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} })
@@ -212,4 +214,36 @@ document.getElementById('rzp-button1').onclick = async function (e) {
     console.log(response)
     alert('Something went wrong')
  });
+}
+
+window.addEventListener('DOMContentLoaded',getrecent);
+async function getrecent(){
+    const parentnode=document.querySelector('#leaderboard1');
+    parentnode.innerHTML="";
+    // alert("aaya")
+    const token=localStorage.getItem('token');
+    try{
+    let response=await axios.get('http://localhost:3000/recent-download',{headers:{"Authorization":token}})
+    console.log(response.data.data[0]);
+    for (let i = 0; i < response.data.data.length; i++){
+        
+    viewrecent(response.data.data[i]);
+    
+    
+    }   
+    }
+    catch(err){
+        console.log(err)
+    };
+}
+
+   function viewrecent(data){
+    console.log(data);
+    const childhtml=`<li id=${data.id}><a href="${data.fileurl}">Download</a> ${data.createdAt}  `;
+    
+    const parentnode=document.querySelector('#Recentdownload');
+    console.log(parentnode);
+    parentnode.innerHTML=parentnode.innerHTML+childhtml;
+ 
+
 }

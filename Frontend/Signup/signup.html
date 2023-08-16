@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>REGISTER PAGE</title>
+    <link rel="stylesheet" href="./signup.css">
 </head>
 <body>
-    <br onsubmit="signup(event)">
-        <label for="name">Enter name:</label></br>
-        <input type="text" name="name" required /></br>
-        <label for="email">Enter email:</label></br>
-        <input type="email" name="email" required /></br>
-        <label for="password">Enter password:</label></br>
-        <input type="password" name="password" required />
-        <button>Signup</button></br>
-    </br>
+        <img class="logo" src="../img/chat.png" alt="">
+        <div class="container">
+    <h2>REGISTER NOW</h2>
+    
+    <form class="submission-form" onsubmit="signup(event)">
+        <label for="name">Name:</label><br>
+        <input type="text" name="name"  placeholder="ENTER YOUR NAME"required /><br>
+        <label for="email">Email:</label><br>
+        <input type="email" name="email" placeholder="ENTER YOUR EMAIL ID" /><br>
+        <!-- <label for="phonenumber">Phone Number:</label> 
+        <input type="number" name="phonenumber" placeholder="PHONENUMBER"  /><br> -->
+        <label for="password">Password:</label><br>
+        <input type="password" name="password" placeholder="PASSWORD"required /><br>
+        <br>
+        <button class="btn1">Signup</button>
     </form>
-    <a href='../Login/login.html'> Existing User - Login</a>
+    
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="./signup.js" ></script>
+    <br><br>
+    <a href="../Login/login.html">EXISTING USER >>>>LOGIN </a><br>
+
+
+<script src="./signup.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

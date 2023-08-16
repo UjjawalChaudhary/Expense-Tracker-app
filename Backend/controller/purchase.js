@@ -16,7 +16,7 @@ const purchasepremium =async (req, res) => {
                 throw new Error(JSON.stringify(err));
             }
             req.user.createOrder({ orderid: order.id, status: 'PENDING'}).then(() => {
-                return res.status(201).json({ order, key_id : rzp.key_id});
+                return res.status(201).json({ order, key_id : rzp.key_id});r
 
             }).catch(err => {
                 throw new Error(err)

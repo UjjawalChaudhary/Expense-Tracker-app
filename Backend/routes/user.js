@@ -28,7 +28,7 @@ router.post('/login', userController.login)
 
 router.post('/addexpense', authenticatemiddleware.authenticate, expenseController.addexpense )
 
-router.get('/download', authenticatemiddleware.authenticate, expenseController.getexpenses)
+router.get('/download', authenticatemiddleware.authenticate, userController.download)
 
 router.get('/getexpenses', authenticatemiddleware.authenticate, expenseController.getexpenses )
 

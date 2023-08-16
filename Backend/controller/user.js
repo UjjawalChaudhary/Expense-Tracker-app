@@ -1,6 +1,7 @@
 
 const User = require('../models/users');
 const Expense = require('../models/expenses');
+const DownloadData = require('../models/downloaddata');
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -21,10 +22,12 @@ function isstringinvalid(string){
     if(isstringinvalid(name) || isstringinvalid(email || isstringinvalid(password))){
         return res.status(400).json({err: "Bad parameters . Something is missing"})
     }
+    console.log(req.body)
     const saltrounds = 10;
     bcrypt.hash(password, saltrounds, async (err, hash) => {
-        console.log(err)
-        await User.create({ name, email, password: hash })
+        //console.log(err)
+        const result = await User.create({ name, email, password: hash })
+        console.log("result", result)
         res.status(201).json({message: 'Successfuly create new user'})
     })
     }catch(err) {
@@ -65,22 +68,25 @@ const login = async (req, res) => {
     }
 }
 
-exports.download=async (req,res,next)=>{
+const download=async (req,res,next)=>{
     if(req.user.ispremiumuser){
     try{
-   let expense=await req.user.getExpenses();
+  // let expense=await req.user.getExpenses();
+   
+   let expense=await Expense.findAll({where:{userrrId:req.user.id}})   
    console.log(expense);
    const stringifyexpense=JSON.stringify(expense);
    const userId=req.user.id;
    const filename=`Expense${userId}/${new Date()}.txt`;
    const fileurl=await s3upload.uploadToS3(stringifyexpense,filename);
-   DownloadData.create({fileurl:fileurl,userId:req.user.id}).then(()=>{
+   DownloadData.create({fileurl:fileurl,userrrId:req.user.id}).then(()=>{
     res.json({fileurl,status:"1"});
    }).catch((err)=>{
     throw new Error(err);
    })
   
     }catch(err){
+        console.log(err)
         res.json({fileurl:"",status:"0"});
     }}
     else{
@@ -91,7 +97,8 @@ exports.download=async (req,res,next)=>{
 module.exports = {
     signup,
     login,
-    generateAccessToken
+    generateAccessToken,
+   download
 
 }
 
